@@ -25,6 +25,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -37,6 +39,9 @@ public class MainActivity extends AppCompatActivity {
     private boolean overlayEnabled = false;
     private int height;
     private int width;
+    private boolean isOpen = false;
+    private ImageButton root, child1, child2;
+    private Animation fabOpen, fabClose, rotateForward, rotateBackward;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,16 @@ public class MainActivity extends AppCompatActivity {
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         height = displayMetrics.heightPixels;
         width = displayMetrics.widthPixels;
+
+        // Animation
+        fabOpen = AnimationUtils.loadAnimation
+                (this,R.anim.fab_open);
+        fabClose = AnimationUtils.loadAnimation
+                (this,R.anim.fab_close);
+        rotateForward = AnimationUtils.loadAnimation
+                (this,R.anim.rotate_forward);
+        rotateBackward = AnimationUtils.loadAnimation
+                (this,R.anim.rotate_backward);
 
         // Tab
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
@@ -80,6 +95,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+    private void animateFab(){
+        if (isOpen){
+            root.startAnimation(rotateForward);
+            child1.startAnimation(fabClose);
+            child2.startAnimation(fabClose);
+            child1.setClickable(false);
+            child2.setClickable(false);
+            isOpen=false;
+        }else {
+            root.startAnimation(rotateBackward);
+            child1.startAnimation(fabOpen);
+            child2.startAnimation(fabOpen);
+            child1.setClickable(true);
+            child2.setClickable(true);
+            isOpen=true;
+        }
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     private void startPowerOverlay() {
@@ -89,6 +121,31 @@ public class MainActivity extends AppCompatActivity {
         final LayoutInflater factory = getLayoutInflater();
         final View overlayEntryView = factory.inflate(R.layout.screen_light_layout, null);
         overlayPowerView = overlayEntryView.findViewById(R.id.overlay_layout);
+
+        // Option show
+        root = (ImageButton) overlayEntryView.findViewById(R.id.opt_btn);
+        child1 = (ImageButton) overlayEntryView.findViewById(R.id.up_btn);
+        child2 = (ImageButton) overlayEntryView.findViewById(R.id.down_btn);
+        root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                animateFab();
+            }
+        });
+        child1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                animateFab();
+            }
+        });
+        child2.setOnClickListener(new View.OnClickListener() {
+              @Override
+              public void onClick(View view) {
+                  animateFab();
+              }
+          });
+
+        // Close
         ImageButton closeBtn = overlayPowerView.findViewById(R.id.close_btn);
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -127,25 +184,15 @@ public class MainActivity extends AppCompatActivity {
         resizeBtn.setOnTouchListener(new View.OnTouchListener() {
          @Override
          public boolean onTouch(View v, MotionEvent event) {
-//             int exactlyTouchX = (int) (event.getRawX() - params.x - params.width);
-//             int exactlyTouchY = (int) (event.getRawY() - initialY - params.height);
-//             if (Math.abs(exactlyTouchY) < 50 && params.width <= width && params.height <= height) {
-//    //                            params.width = (int) event.getRawX() - initialX;
-//    //                            params.height = (int) event.getRawY() - initialY;
-//                 params.height += event.getX() / Math.abs(event.getX());
-//             }
              switch (event.getAction()){
                  case MotionEvent.ACTION_MOVE:
                      params.width = (int) event.getRawX() - params.x;
                      params.height = (int) event.getRawY() - params.y;
-//                     params.width += 8*event.getX()/Math.abs(event.getX());
-//                     params.height += 8*event.getY()/Math.abs(event.getY());
-                     windowManager.updateViewLayout(overlayPowerView, params);
                      if (params.width > width) {
                          params.width = width;
                      }
-                     if (params.width < 100) {
-                         params.width = 100;
+                     if (params.width < 200) {
+                         params.width = 200;
                      }
                      if (params.height > height) {
                          params.height = height;
