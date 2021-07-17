@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -88,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         final LayoutInflater factory = getLayoutInflater();
         final View overlayEntryView = factory.inflate(R.layout.screen_light_layout, null);
         overlayPowerView = overlayEntryView.findViewById(R.id.overlay_layout);
-        FloatingActionButton closeBtn = overlayPowerView.findViewById(R.id.close_btn);
+        ImageButton closeBtn = overlayPowerView.findViewById(R.id.close_btn);
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,18 +109,56 @@ public class MainActivity extends AppCompatActivity {
 
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT,
+                WindowManager.LayoutParams.MATCH_PARENT,
                 LAYOUT_FLAG,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
                 PixelFormat.TRANSLUCENT);
 
-        params.gravity = Gravity.TOP | Gravity.START;
+        params.gravity = Gravity.TOP | Gravity.LEFT;
         params.x = 0;
-        params.y = 0;
-//        params.height = 110;
-//        params.width = width;
+        params.y = 400;
+        params.height = 500;
+//        params.screenBrightness = 1;
+        params.width = width;
 
         windowManager.addView(overlayPowerView, params);
+
+        ImageButton resizeBtn =  overlayPowerView.findViewById(R.id.resize_btn);
+        resizeBtn.setOnTouchListener(new View.OnTouchListener() {
+         @Override
+         public boolean onTouch(View v, MotionEvent event) {
+//             int exactlyTouchX = (int) (event.getRawX() - params.x - params.width);
+//             int exactlyTouchY = (int) (event.getRawY() - initialY - params.height);
+//             if (Math.abs(exactlyTouchY) < 50 && params.width <= width && params.height <= height) {
+//    //                            params.width = (int) event.getRawX() - initialX;
+//    //                            params.height = (int) event.getRawY() - initialY;
+//                 params.height += event.getX() / Math.abs(event.getX());
+//             }
+             switch (event.getAction()){
+                 case MotionEvent.ACTION_MOVE:
+                     params.width = (int) event.getRawX() - params.x;
+                     params.height = (int) event.getRawY() - params.y;
+//                     params.width += 8*event.getX()/Math.abs(event.getX());
+//                     params.height += 8*event.getY()/Math.abs(event.getY());
+                     windowManager.updateViewLayout(overlayPowerView, params);
+                     if (params.width > width) {
+                         params.width = width;
+                     }
+                     if (params.width < 100) {
+                         params.width = 100;
+                     }
+                     if (params.height > height) {
+                         params.height = height;
+                     }
+                     if (params.height < 100) {
+                         params.height = 100;
+                     }
+                     break;
+             }
+             windowManager.updateViewLayout(overlayPowerView, params);
+             return true;
+             }
+         });
 
         overlayPowerView.setOnTouchListener(new View.OnTouchListener() {
             private int initialX;
@@ -164,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (overlayPowerView != null)
-            windowManager.removeView(overlayPowerView);
+//        if (overlayPowerView != null)
+//            windowManager.removeView(overlayPowerView);
     }
 }

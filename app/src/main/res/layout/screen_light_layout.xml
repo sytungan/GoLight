@@ -5,27 +5,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/overlay_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:ignore="MissingConstraints"
     >
     <View
         android:layout_width="match_parent"
         android:background="@color/white"
-        android:layout_height="80dp"
+        android:layout_height="match_parent"
     />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
+<!--        android:id="@+id/close_btn"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="0dp"-->
+<!--        android:layout_marginEnd="0dp"-->
+<!--        android:background="@color/white"-->
+<!--        android:backgroundTint="@color/white"-->
+<!--        app:borderWidth="0dp"-->
+<!--        app:fabCustomSize="24dp"-->
+<!--        android:src="@drawable/ic_cancel_eval"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+    <ImageButton
         android:id="@+id/close_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="0dp"
-        android:layout_marginEnd="0dp"
-        android:background="@color/white"
-        android:backgroundTint="@color/white"
-        app:borderWidth="0dp"
-        app:fabCustomSize="24dp"
-        android:visibility="gone"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="?android:selectableItemBackgroundBorderless"
         android:src="@drawable/ic_cancel_eval"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+    <ImageButton
+        android:id="@+id/resize_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="4dp"
+        android:background="?android:selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_cancel_eval"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
