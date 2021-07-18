@@ -13,13 +13,43 @@
         android:background="@color/white"
         android:layout_height="match_parent"
     />
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.google.android.material.circularreveal.CircularRevealFrameLayout
+            android:id="@+id/sheet"
+            android:layout_gravity="top|center_horizontal"
+            android:visibility="invisible"
+            android:background="@color/black"
+            app:layout_behavior="com.google.android.material.transformation.FabTransformationSheetBehavior"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@color/purple_200"
+                />
+        </com.google.android.material.circularreveal.CircularRevealFrameLayout>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_mo"
+            android:layout_gravity="top|start"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="4dp"
+            android:backgroundTint="@color/white"
+            app:borderWidth="0dp"
+            app:fabCustomSize="24dp"
+            app:srcCompat="@drawable/ic_cancel_eval"
+            />
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <ImageButton
         android:id="@+id/opt_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="40dp"
         android:background="?android:selectableItemBackgroundBorderless"
         android:src="@drawable/ic_cancel_eval"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,11 +71,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"
-        android:layout_marginStart="4dp"
+        android:layout_marginStart="0dp"
         android:visibility="invisible"
         android:background="?android:selectableItemBackgroundBorderless"
         android:src="@drawable/ic_cancel_eval"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/opt_btn"
         app:layout_constraintTop_toBottomOf="@id/opt_btn" />
     <ImageButton
         android:id="@+id/close_btn"

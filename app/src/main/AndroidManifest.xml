@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GoLight">
         <activity
-            android:name=".Morph"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/Theme.GoLight.NoActionBar">
             <intent-filter>

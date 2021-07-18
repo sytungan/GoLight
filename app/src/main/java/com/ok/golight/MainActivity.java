@@ -157,6 +157,20 @@ public class MainActivity extends AppCompatActivity {
         params.width = width;
         windowManager.addView(overlayPowerView, params);
 
+        // Option button
+        FloatingActionButton fabMorph = overlayEntryView.findViewById(R.id.fab_mo);
+        fabMorph.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!fabMorph.isExpanded()) {
+                    fabMorph.setExpanded(true);
+                }
+                else {
+                    fabMorph.setExpanded(false);
+                }
+            }
+        });
+
         // Option show
         root = (ImageButton) overlayEntryView.findViewById(R.id.opt_btn);
         child1 = (ImageButton) overlayEntryView.findViewById(R.id.up_btn);
