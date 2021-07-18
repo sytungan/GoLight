@@ -122,29 +122,6 @@ public class MainActivity extends AppCompatActivity {
         final View overlayEntryView = factory.inflate(R.layout.screen_light_layout, null);
         overlayPowerView = overlayEntryView.findViewById(R.id.overlay_layout);
 
-        // Option show
-        root = (ImageButton) overlayEntryView.findViewById(R.id.opt_btn);
-        child1 = (ImageButton) overlayEntryView.findViewById(R.id.up_btn);
-        child2 = (ImageButton) overlayEntryView.findViewById(R.id.down_btn);
-        root.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                animateFab();
-            }
-        });
-        child1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                animateFab();
-            }
-        });
-        child2.setOnClickListener(new View.OnClickListener() {
-              @Override
-              public void onClick(View view) {
-                  animateFab();
-              }
-          });
-
         // Close
         ImageButton closeBtn = overlayPowerView.findViewById(R.id.close_btn);
         closeBtn.setOnClickListener(new View.OnClickListener() {
@@ -164,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
             LAYOUT_FLAG = WindowManager.LayoutParams.TYPE_PHONE;
         }
 
+        // Overlay show up
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT,
@@ -177,8 +155,36 @@ public class MainActivity extends AppCompatActivity {
         params.height = 500;
 //        params.screenBrightness = 1;
         params.width = width;
-
         windowManager.addView(overlayPowerView, params);
+
+        // Option show
+        root = (ImageButton) overlayEntryView.findViewById(R.id.opt_btn);
+        child1 = (ImageButton) overlayEntryView.findViewById(R.id.up_btn);
+        child2 = (ImageButton) overlayEntryView.findViewById(R.id.down_btn);
+        root.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                animateFab();
+            }
+        });
+        child1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                params.x = 0;
+                params.y = 0;
+                windowManager.updateViewLayout(overlayPowerView, params);
+                animateFab();
+            }
+        });
+        child2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                params.x = 0;
+                params.y = height - params.height;
+                windowManager.updateViewLayout(overlayPowerView, params);
+                animateFab();
+            }
+        });
 
         ImageButton resizeBtn =  overlayPowerView.findViewById(R.id.resize_btn);
         resizeBtn.setOnTouchListener(new View.OnTouchListener() {
