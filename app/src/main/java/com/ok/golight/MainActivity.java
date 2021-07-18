@@ -157,9 +157,21 @@ public class MainActivity extends AppCompatActivity {
         params.width = width;
         windowManager.addView(overlayPowerView, params);
 
-        // Option button
+        // Morph bar
         FloatingActionButton fabMorph = overlayEntryView.findViewById(R.id.fab_mo);
         fabMorph.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!fabMorph.isExpanded()) {
+                    fabMorph.setExpanded(true);
+                }
+                else {
+                    fabMorph.setExpanded(false);
+                }
+            }
+        });
+        ImageButton closeMorph =  overlayEntryView.findViewById(R.id.close_morph);
+        closeMorph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!fabMorph.isExpanded()) {
@@ -217,8 +229,8 @@ public class MainActivity extends AppCompatActivity {
                      if (params.height > height) {
                          params.height = height;
                      }
-                     if (params.height < 100) {
-                         params.height = 100;
+                     if (params.height < 120) {
+                         params.height = 120;
                      }
                      break;
              }
