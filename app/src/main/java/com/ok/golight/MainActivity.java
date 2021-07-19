@@ -40,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
     private int height;
     private int width;
     private boolean isOpen = false;
+    private boolean isBotOpen = false;
     private ImageButton root, child1, child2;
+    private ImageButton resizeBtn, closeBtn;
     private Animation fabOpen, fabClose, rotateForward, rotateBackward;
 
     @Override
@@ -113,6 +115,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    private void botAnimate() {
+        if (isBotOpen){
+            resizeBtn.startAnimation(fabClose);
+            closeBtn.startAnimation(fabClose);
+            resizeBtn.setClickable(false);
+            closeBtn.setClickable(false);
+            isBotOpen=false;
+        }else {
+            resizeBtn.startAnimation(fabOpen);
+            closeBtn.startAnimation(fabOpen);
+            resizeBtn.setClickable(true);
+            closeBtn.setClickable(true);
+            isBotOpen=true;
+        }
+    }
+
     @SuppressLint("ClickableViewAccessibility")
     private void startPowerOverlay() {
         // Starts the button overlay.
@@ -123,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         overlayPowerView = overlayEntryView.findViewById(R.id.overlay_layout);
 
         // Close
-        ImageButton closeBtn = overlayPowerView.findViewById(R.id.close_btn);
+        closeBtn = overlayPowerView.findViewById(R.id.close_btn);
         closeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -162,6 +180,7 @@ public class MainActivity extends AppCompatActivity {
         fabMorph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                botAnimate();
                 if (!fabMorph.isExpanded()) {
                     fabMorph.setExpanded(true);
                 }
@@ -174,6 +193,7 @@ public class MainActivity extends AppCompatActivity {
         closeMorph.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                botAnimate();
                 if (!fabMorph.isExpanded()) {
                     fabMorph.setExpanded(true);
                 }
@@ -212,7 +232,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        ImageButton resizeBtn =  overlayPowerView.findViewById(R.id.resize_btn);
+        resizeBtn =  overlayPowerView.findViewById(R.id.resize_btn);
         resizeBtn.setOnTouchListener(new View.OnTouchListener() {
          @Override
          public boolean onTouch(View v, MotionEvent event) {
@@ -223,8 +243,8 @@ public class MainActivity extends AppCompatActivity {
                      if (params.width > width) {
                          params.width = width;
                      }
-                     if (params.width < 200) {
-                         params.width = 200;
+                     if (params.width < 280) {
+                         params.width = 280;
                      }
                      if (params.height > height) {
                          params.height = height;
